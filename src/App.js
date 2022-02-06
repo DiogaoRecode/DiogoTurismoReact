@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import { useSelector } from 'react-redux';
+import {selectUser} from "./features/userSlice";
+import Navbar from '../src/components/Navbar';
+import Home from './pages/Home';
+import Footer from './components/Footer';
+import Pacotes from './pages/Pacotes';
+import Contato from './pages/Contato';
+import Sobre from './pages/Sobre';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import {BrowserRouter as Router,Route,Routes } from 'react-router-dom';
 
 function App() {
-  return (
+  const user  = useSelector(selectUser);
+ 
+  return(
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+      <Navbar />
+      <Routes>
+      <Route  path='/' exact element={<Home />} />
+      <Route  path='/home' element={<Home />} />
+      <Route  path='/login' element={user?<Logout /> :<Login />} />
+        {/* {user?<Logout /> :<Login />} */}
+        <Route  path='/pacotes' element={<Pacotes />} />
+        <Route  path='/sobre' element={<Sobre />} />
+        <Route  path='/contato' element={<Contato />} />
+      </Routes>
+      <Footer />
+      </Router> 
     </div>
   );
 }
